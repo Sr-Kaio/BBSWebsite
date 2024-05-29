@@ -74,7 +74,7 @@ body {
     margin: 0 0 120px 0;
     gap: 4px;
     background-blend-mode: multiply;
-    background-image: url('../res/assets/Background.jpg');
+    background-image: url('../ass/assets/Background.jpg');
     background-size: 11%;
     background-color: #40344e;
     justify-content: center;
