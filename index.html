@@ -18,16 +18,59 @@
         <div class="bg">
             <img src="res/assets/BBSLogo.png" width="400px"></img>
             <br style="margin-bottom: 10px;"></br>
-            <div>
-                <p1 class="cooldown" id="cooldown_"></p1>
-                <br style="margin-bottom: 10px;"></br>
-                <div style="display: flex; gap: 20px;">
-                    <button class="copyIPButton" onclick="basicCopy('BBS1D9rj.aternos.me:21167')">Copiar IP - JAVA</button>
-                    <button class="copyIPButton" onclick="basicCopy('IP: BBS1D9rj.aternos.me\nPORTA: 21167')">Copiar IP - BEDROCK</button>
+            <div style="
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            gap: 20px;
+            background-color: rgba(0, 0, 0, 0.281);
+            padding: 20px;
+            box-shadow: 3px 3px #00000070;
+            backdrop-filter: blur(3px);
+            ">
+                <p1 class="cooldown" id="Status_">Carregando status...</p1>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <img src="res/assets/steve.png" alt="" width="32px" height="32px">
+                    <p class="PlayerAmount" id="playeramount">0/0</p>
                 </div>
+            </div>
+            <br style="margin-bottom: 10px;"></br>
+            <div style="display: flex; gap: 20px;">
+                <button class="copyIPButton" onclick="basicCopy('BBS1D9rj.aternos.me:21167')">Copiar IP - JAVA</button>
+                <button class="copyBedrockIPButton" onclick="basicCopy('IP: BBS1D9rj.aternos.me\nPORTA: 21167')">Copiar IP - BEDROCK</button>
             </div>
         </div>
 
+        <p1 style="
+        color:rgb(204, 204, 204);
+        font-weight: 700;
+        font-size: 40px;
+        text-shadow: 3px 3px #ffffff36;
+        ">Lista de jogadores</p1>
+        <br>
+        <p1 style="
+        color:rgb(204, 204, 204);
+        font-weight: 900;
+        font-size: 95px;
+        text-shadow: 3px 3px #ffffff36;
+        ">ONLINE</p1>
+        
+        <div class="playerlist">
+            <!--
+            <div id="playerDiv">
+                <img src="res/assets/steve.png" alt="" width="65px" height="65px">
+                <div>
+                    <p style="
+                    color:rgb(204, 204, 204);
+                    font-weight: 900;
+                    font-size: 35px;
+                    text-shadow: 3px 3px #ffffff36;
+                    ">StevePuto_</p>
+                </div>
+            </div>
+        -->
+        </div>
         <script src="" async defer></script>
     </body>
 </html>
