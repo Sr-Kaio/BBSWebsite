@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "Minecraft";
+    src: url('../res/fonts/minecraft.ttf') format("truetype");
+}
+
+body {
+    font-family: 'Minecraft';
+    background-color: #28282B;
+}
+
+.bg {
+    position: absolute;
+    display: flex;
+    top:50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width: 100%;
+    padding: 25px 0px 25px 0px;
+    background-color: #00000059;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 5px 20px #00000088;
+}
+
+.cooldown {
+    color:rgb(243, 243, 243);
+    font-weight: 900;
+    font-size: 50px;
+    text-shadow: 3px 3px #ffffff36;
+}
+
+.copyIPButton {
+    background-color: #ab45ff;
+    padding: 12px;
+    border: #00000000;
+    box-shadow: 0 5px 20px #000000ce;
+    font-family: 'Minecraft';
+    transition: .25s;
+
+}
+
+.copyIPButton:hover {
+    background-color: #bc6aff;
+    box-shadow: 0 0px 20px #bc6aff;
+    scale: 1.05;
+    transform: translateY(-2px);
+}
+
+.copyIPButton:active {
+    transition: .1s;
+    background-color: #713d9b;
+    box-shadow: 0 5px 20px #000000ce;
+    color: #ffffff91;
+    scale: 1;
+    transform: translateY(0px);
+}
