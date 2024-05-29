@@ -1,15 +1,19 @@
 
 window.onload = function () {
-    var xmlhttp = new XMLHttpRequest();
-    var url = "https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me";
-    xmlhttp.open("GET", url, true);
+    const apiUrl = `https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me`;
 
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var json = JSON.parse(this.responseText);
-            document.getElementById("playeramount").innerHTML = json.players.online
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log("asasd");
+                const data = JSON.parse(xhr.responseText);
+            }
         }
     };
+
+    xhr.open('GET', apiUrl);
 };
 
 function basicCopy(textToCopy) {
