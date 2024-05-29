@@ -1,10 +1,6 @@
-@font-face {
-    font-family: "Minecraft";
-    src: url('../res/fonts/minecraft.ttf') format("truetype");
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 body {
-    font-family: 'Minecraft';
+    font-family: 'Montserrat';
     background-color: #28282B;
 }
 
@@ -16,17 +12,17 @@ body {
     transform: translate(-50% , -50%);
     width: 100%;
     padding: 25px 0px 25px 0px;
+    gap: 23px;
     background-color: #00000059;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     box-shadow: 0 5px 20px #00000088;
 }
 
 .cooldown {
     color:rgb(243, 243, 243);
     font-weight: 900;
-    font-size: 50px;
+    font-size: 80px;
     text-shadow: 3px 3px #ffffff36;
 }
 
@@ -35,9 +31,9 @@ body {
     padding: 12px;
     border: #00000000;
     box-shadow: 0 5px 20px #000000ce;
-    font-family: 'Minecraft';
+    font-family: 'Montserrat';
     transition: .25s;
-
+    font-weight: 600;
 }
 
 .copyIPButton:hover {
