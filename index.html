@@ -12,9 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/src/style.css">
     </head>
-    <body>
-        <script src="src/js/basic.js"></script>
-        
+    <body>        
         <div class="bg">
             <img src="ass/assets/BBSLogo.png" width="400px"></img>
             <br style="margin-bottom: 10px;"></br>
@@ -29,7 +27,7 @@
             box-shadow: 3px 3px #00000070;
             backdrop-filter: blur(3px);
             ">
-                <p1 class="cooldown" id="Status_">Carregando status...</p1>
+                <p1 class="cooldown" id="statuss">Carregando status...</p1>
                 <div style="display: flex; align-items: center; gap: 6px;">
                     <img src="ass/assets/steve.png" alt="" width="32px" height="32px">
                     <p class="PlayerAmount" id="playeramount">0/0</p>
@@ -55,8 +53,13 @@
         font-size: 95px;
         text-shadow: 3px 3px #ffffff36;
         ">ONLINE</p1>
-        
-        <div class="playerlist">
+        <br>
+        <p1 style="
+         color:rgba(204, 204, 204, 0.452);
+         font-weight: 200;
+         font-size: 95px;
+         ">___________</p1>
+        <div class="playerlist" id="list">
             <!--
             <div id="playerDiv">
                 <img src="res/assets/steve.png" alt="" width="65px" height="65px">
@@ -73,4 +76,64 @@
         </div>
         <script src="" async defer></script>
     </body>
+    <script>
+       
+        window.onload = function () {
+            const apiUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me';
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.players.max != 0 || data.online) {
+                        document.getElementById("statuss").innerHTML = "Servidor está aberto!"
+                        document.getElementById("statuss").style = "color: rgb(185,252,185)"
+                    } else {
+                        document.getElementById("statuss").style = "color: rgb(252,185,185)"
+                        document.getElementById("statuss").innerHTML = "Servidor está fechado..."
+                    }
+                    document.getElementById("playeramount").innerHTML = data.players.online + '/' + data.players.max
+                    
+                    
+                    data.players.list.forEach(element => {
+                        let playerDiv_ = document.createElement("div");
+                        playerDiv_.setAttribute('id', 'playerDiv')
+                        document.getElementById("list").appendChild(playerDiv_)
+
+                        let playerIcon = document.createElement("img");
+                        playerDiv_.appendChild(playerIcon)
+                        playerIcon.setAttribute('src', 'ass/assets/steve.png')
+                        playerIcon.setAttribute('width', '65px')
+                        
+                        let divInside = document.createElement("div");
+                        playerDiv_.appendChild(divInside)
+                        playerDiv_.style = "text-align: left;"
+
+                        let playerText = document.createElement("p");
+                        divInside.appendChild(playerText)
+                        playerText.innerHTML = element.name_clean
+                        playerText.style = " color:rgb(204, 204, 204); font-weight: 900; font-size: 35px; text-shadow: 3px 3px #ffffff36;"
+                    
+                        let playerPlatform = document.createElement("p");
+                        divInside.appendChild(playerPlatform)
+                        if (element.name_clean.startsWith(".")) {playerPlatform.innerHTML = "Bedrock"} else {playerPlatform.innerHTML = "Java"}
+                       
+                        playerPlatform.style = " color:rgba(204, 204, 204, .5); font-weight: 500; font-size: 18px; text-shadow: 3px 3px 5px #00000069;"
+                    
+                    });
+                }
+            };
+            
+
+            xhr.open('GET', apiUrl);
+            xhr.send();
+
+            
+        };
+
+        function basicCopy(textToCopy) {
+            navigator.clipboard.writeText(textToCopy);
+        }
+        </script>
 </html>
