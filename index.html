@@ -80,7 +80,8 @@
        
         window.onload = function () {
             const apiUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me';
-
+            const apiAltUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me:21167';
+            let currentURL = apiUrl
             const xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function() {
@@ -88,50 +89,54 @@
                     const data = JSON.parse(xhr.responseText);
                     if (data.online) {
                         if (data.players.max != 0) {
-                             document.getElementById("statuss").innerHTML = "Servidor está aberto!"
+                            document.getElementById("statuss").innerHTML = "Servidor está aberto!"
                             document.getElementById("statuss").style = "color: rgb(185,252,185)"
+                            document.getElementById("playeramount").innerHTML = data.players.online + '/' + data.players.max
+                            
+                            
+                            data.players.list.forEach(element => {
+                                let playerDiv_ = document.createElement("div");
+                                playerDiv_.setAttribute('id', 'playerDiv')
+                                document.getElementById("list").appendChild(playerDiv_)
+        
+                                let playerIcon = document.createElement("img");
+                                playerDiv_.appendChild(playerIcon)
+                                playerIcon.setAttribute('src', 'ass/assets/steve.png')
+                                playerIcon.setAttribute('width', '65px')
+                                
+                                let divInside = document.createElement("div");
+                                playerDiv_.appendChild(divInside)
+                                playerDiv_.style = "text-align: left;"
+        
+                                let playerText = document.createElement("p");
+                                divInside.appendChild(playerText)
+                                playerText.innerHTML = element.name_clean
+                                playerText.style = " color:rgb(204, 204, 204); font-weight: 900; font-size: 35px; text-shadow: 3px 3px #ffffff36;"
+                            
+                                let playerPlatform = document.createElement("p");
+                                divInside.appendChild(playerPlatform)
+                                if (element.name_clean.startsWith(".")) {playerPlatform.innerHTML = "Bedrock Edition"} else {playerPlatform.innerHTML = "Java Edition"}
+                               
+                                playerPlatform.style = " color:rgba(204, 204, 204, .5); font-weight: 500; font-size: 18px; text-shadow: 3px 3px 5px #00000069;"
+                            
+                            });
                         }else{
                             document.getElementById("statuss").style = "color: rgb(252,185,185)"
                             document.getElementById("statuss").innerHTML = "Servidor está fechado..."
                         }
                     } else {
+                        if (currentURL != apiAltUrl) {
+                            currentURL = apiAltUrl
+                            xhr.open('GET', currentURL);
+                        }
                         document.getElementById("statuss").style = "color: rgb(252,185,185)"
                         document.getElementById("statuss").innerHTML = "Servidor está fechado..."
                     }
-                    document.getElementById("playeramount").innerHTML = data.players.online + '/' + data.players.max
-                    
-                    
-                    data.players.list.forEach(element => {
-                        let playerDiv_ = document.createElement("div");
-                        playerDiv_.setAttribute('id', 'playerDiv')
-                        document.getElementById("list").appendChild(playerDiv_)
-
-                        let playerIcon = document.createElement("img");
-                        playerDiv_.appendChild(playerIcon)
-                        playerIcon.setAttribute('src', 'ass/assets/steve.png')
-                        playerIcon.setAttribute('width', '65px')
-                        
-                        let divInside = document.createElement("div");
-                        playerDiv_.appendChild(divInside)
-                        playerDiv_.style = "text-align: left;"
-
-                        let playerText = document.createElement("p");
-                        divInside.appendChild(playerText)
-                        playerText.innerHTML = element.name_clean
-                        playerText.style = " color:rgb(204, 204, 204); font-weight: 900; font-size: 35px; text-shadow: 3px 3px #ffffff36;"
-                    
-                        let playerPlatform = document.createElement("p");
-                        divInside.appendChild(playerPlatform)
-                        if (element.name_clean.startsWith(".")) {playerPlatform.innerHTML = "Bedrock Edition"} else {playerPlatform.innerHTML = "Java Edition"}
-                       
-                        playerPlatform.style = " color:rgba(204, 204, 204, .5); font-weight: 500; font-size: 18px; text-shadow: 3px 3px 5px #00000069;"
-                    
-                    });
                 }
             };
             
 
-            xhr.open('GET', apiUrl);
+            xhr.open('GET', currentURL);
             xhr.send();
 
             
