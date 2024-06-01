@@ -77,69 +77,77 @@
         <script src="" async defer></script>
     </body>
     <script>
-       
+        const apiUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me';
+        const apiAltUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me:21167';
+        let currentURL = apiUrl
+
+        function ReattemptIsSucessful(xhr) {
+            if (currentURL == apiAltUrl) { return false }
+
+            currentURL = apiAltUrl
+            xhr.open('GET', currentURL);
+            xhr.send();
+            true
+        }
+
+        function displayPlayerDisplayer(playerElement) {
+            let playerDiv_ = document.createElement("div");
+                playerDiv_.setAttribute('id', 'playerDiv')
+                document.getElementById("list").appendChild(playerDiv_)
+    
+                let playerIcon = document.createElement("img");
+                playerDiv_.appendChild(playerIcon)
+                playerIcon.setAttribute('src', 'ass/assets/steve.png')
+                playerIcon.setAttribute('width', '65px')
+                            
+                let divInside = document.createElement("div");
+                playerDiv_.appendChild(divInside)
+                playerDiv_.style = "text-align: left;"
+    
+                let playerText = document.createElement("p");
+                divInside.appendChild(playerText)
+                playerText.innerHTML = playerElement.name_clean
+                playerText.style = " color:rgb(204, 204, 204); font-weight: 900; font-size: 35px; text-shadow: 3px 3px #ffffff36;"
+                    
+                let playerPlatform = document.createElement("p");
+                divInside.appendChild(playerPlatform)
+                if (playerElement.name_clean.startsWith(".")) {playerPlatform.innerHTML = "Bedrock Edition"} else {playerPlatform.innerHTML = "Java Edition"}
+                           
+                playerPlatform.style = " color:rgba(204, 204, 204, .5); font-weight: 500; font-size: 18px; text-shadow: 3px 3px 5px #00000069;"
+        }
+
+        function displayServer_ON(jsonData) {
+            if (jsonData.players.max != 0) { displayServer_OFF(); return }
+
+            document.getElementById("statuss").innerHTML = "Servidor está aberto!"
+            document.getElementById("statuss").style = "color: rgb(185,252,185)"
+            document.getElementById("playeramount").innerHTML = jsonData.players.online + '/' + jsonData.players.max
+                        
+            jsonData.players.list.forEach(player => {
+                displayPlayerDisplayer(player)
+            });
+        }
+
+        function displayServer_OFF(jsonData, xhr) {
+            if (ReattemptIsSucessful(xhr)) { return }
+
+            document.getElementById("statuss").style = "color: rgb(252,185,185)"
+            document.getElementById("statuss").innerHTML = "Servidor está fechado..."
+        }
+
         window.onload = function () {
-            const apiUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me';
-            const apiAltUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me:21167';
-            let currentURL = apiUrl
             const xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    const data = JSON.parse(xhr.responseText);
-                    if (data.online) {
-                        if (data.players.max != 0) {
-                            document.getElementById("statuss").innerHTML = "Servidor está aberto!"
-                            document.getElementById("statuss").style = "color: rgb(185,252,185)"
-                            document.getElementById("playeramount").innerHTML = data.players.online + '/' + data.players.max
-                            
-                            
-                            data.players.list.forEach(element => {
-                                let playerDiv_ = document.createElement("div");
-                                playerDiv_.setAttribute('id', 'playerDiv')
-                                document.getElementById("list").appendChild(playerDiv_)
-        
-                                let playerIcon = document.createElement("img");
-                                playerDiv_.appendChild(playerIcon)
-                                playerIcon.setAttribute('src', 'ass/assets/steve.png')
-                                playerIcon.setAttribute('width', '65px')
-                                
-                                let divInside = document.createElement("div");
-                                playerDiv_.appendChild(divInside)
-                                playerDiv_.style = "text-align: left;"
-        
-                                let playerText = document.createElement("p");
-                                divInside.appendChild(playerText)
-                                playerText.innerHTML = element.name_clean
-                                playerText.style = " color:rgb(204, 204, 204); font-weight: 900; font-size: 35px; text-shadow: 3px 3px #ffffff36;"
-                            
-                                let playerPlatform = document.createElement("p");
-                                divInside.appendChild(playerPlatform)
-                                if (element.name_clean.startsWith(".")) {playerPlatform.innerHTML = "Bedrock Edition"} else {playerPlatform.innerHTML = "Java Edition"}
-                               
-                                playerPlatform.style = " color:rgba(204, 204, 204, .5); font-weight: 500; font-size: 18px; text-shadow: 3px 3px 5px #00000069;"
-                            
-                            });
-                        }else{
-                            document.getElementById("statuss").style = "color: rgb(252,185,185)"
-                            document.getElementById("statuss").innerHTML = "Servidor está fechado..."
-                        }
-                    } else {
-                        if (currentURL != apiAltUrl) {
-                            currentURL = apiAltUrl
-                            xhr.open('GET', currentURL);
-                            xhr.send();
-                        }
-                        document.getElementById("statuss").style = "color: rgb(252,185,185)"
-                        document.getElementById("statuss").innerHTML = "Servidor está fechado..."
-                    }
-                }
+                if (!(this.readyState == 4 && this.status == 200)) { return }
+                
+                const data = JSON.parse(xhr.responseText);
+
+                if (data.online) { displayServer_ON(data) } else { displayServer_OFF(data, xhr) }
             };
             
-
             xhr.open('GET', currentURL);
             xhr.send();
-
             
         };
 
