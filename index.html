@@ -77,11 +77,13 @@
         <script src="" async defer></script>
     </body>
     <script>
+        const xhr = new XMLHttpRequest();
+
         const apiUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me';
         const apiAltUrl = 'https://api.mcstatus.io/v2/status/java/BBS1D9rj.aternos.me:21167';
         let currentURL = apiUrl
 
-        function ReattemptIsSucessful(xhr) {
+        function ReattemptIsSucessful() {
             if (currentURL == apiAltUrl) { return false }
 
             currentURL = apiAltUrl
@@ -117,7 +119,7 @@
         }
 
         function displayServer_ON(jsonData) {
-            if (jsonData.players.max != 0) { displayServer_OFF(); return }
+            if (jsonData.players.max == 0) { displayServer_OFF(); return }
 
             document.getElementById("statuss").innerHTML = "Servidor está aberto!"
             document.getElementById("statuss").style = "color: rgb(185,252,185)"
@@ -128,22 +130,21 @@
             });
         }
 
-        function displayServer_OFF(jsonData, xhr) {
-            if (ReattemptIsSucessful(xhr)) { return }
+        function displayServer_OFF(jsonData) {
+            if (ReattemptIsSucessful()) { return }
 
             document.getElementById("statuss").style = "color: rgb(252,185,185)"
             document.getElementById("statuss").innerHTML = "Servidor está fechado..."
         }
 
         window.onload = function () {
-            const xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function() {
                 if (!(this.readyState == 4 && this.status == 200)) { return }
                 
                 const data = JSON.parse(xhr.responseText);
 
-                if (data.online) { displayServer_ON(data) } else { displayServer_OFF(data, xhr) }
+                if (data.online) { displayServer_ON(data) } else { displayServer_OFF(data) }
             };
             
             xhr.open('GET', currentURL);
